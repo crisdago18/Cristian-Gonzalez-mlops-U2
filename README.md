@@ -1,30 +1,83 @@
 # Diagnóstico Médico Automatizado
 
-Este proyecto simula un diagnóstico médico utilizando reglas simples y una API construida con Flask. Permite a un usuario enviar tres valores clínicos y recibir un diagnóstico automático.
+Este proyecto simula un sistema de diagnóstico médico basado en reglas simples. El objetivo es exponer un modelo simulado mediante una API para que un médico pueda ingresar tres valores clínicos y recibir un diagnóstico automatizado.
 
 ## Objetivo
 
-Facilitar el despliegue de un modelo simulado de diagnóstico médico mediante contenedores Docker, sin requerir entornos complejos.
+Permitir el despliegue sencillo de un “modelo” simulado de diagnóstico usando contenedores Docker para el entregable 1, facilitando su uso sin necesidad de entornos de programación complejos.
 
-## Parámetros de entrada
+## Los Parámetros de entrada
 
-La API recibe tres valores numéricos en formato JSON:
+La función de diagnóstico requiere **tres valores numéricos** que representan mediciones clínicas. Estos deben ingresarse en una solicitud POST en formato JSON:
 
-- `frecuencia_cardiaca` (ppm)  
-- `nivel_glucosa` (mg/dL)  
-- `presion_sistolica` (mm Hg)
+- `frecuencia_cardiaca`: Ritmo cardíaco en pulsaciones por minuto.
+- `nivel_glucosa`: Nivel de glucosa en sangre 
+- `presion_sistolica`: Presión sistólica
 
-Con base en estos, retorna uno de los siguientes diagnósticos:
+Estos valores serán evaluados mediante reglas simples para retornar un diagnóstico entre:
 
-- NO ENFERMO  
-- ENFERMEDAD LEVE  
-- ENFERMEDAD AGUDA  
+- NO ENFERMO
+- ENFERMEDAD LEVE
+- ENFERMEDAD AGUDA
 - ENFERMEDAD CRÓNICA
+
+## Componentes del proyecto
+
+- `app.py`: Archivo principal que expone el servicio mediante Flask.
+- `modelo.py`: Contiene la lógica de diagnóstico simulada.
+- `Dockerfile`: Imagen personalizada que permite ejecutar el servicio.
+- `requirements.txt`: Dependencias necesarias (Flask).
+- `README.md`: Este archivo con información explicativa.
 
 ## Estructura del proyecto
 
-- `app.py`: expone la API con Flask  
-- `modelo.py`: contiene la lógica del diagnóstico  
-- `Dockerfile`: define la imagen Docker  
-- `requirements.txt`: dependencias necesarias  
-- `README.md`: documentación del proyecto
+```
+entregable_1/
+├── app.py                # Exposición del servicio mediante Flask
+├── modelo.py             # Lógica del diagnóstico simulado
+├── Dockerfile            # Imagen personalizada de Docker
+├── requirements.txt      # Dependencias necesarias
+└── README.md             # Este archivo con documentación del proyecto
+
+
+```
+## A continuación, se explica como probar el servicio con postman
+
+1. Crear una nueva solicitud
+
+Haz clic en “+ New Tab” o en “New” → “HTTP Request”.
+
+Selecciona el método POST.
+
+En el campo de URL escribe:
+```
+http://localhost:5000/predecir
+```
+2. Configurar el cuerpo de la solicitud
+Ve a la pestaña Body.
+
+Selecciona raw.
+
+En el menú desplegable a la derecha elige JSON.
+
+Escribe el siguiente JSON con los parámetros esperados:
+```
+{
+  "frecuencia_cardiaca": 85,
+  "nivel_glucosa": 105,
+  "presion_sistolica": 115
+}
+```
+
+3. Enviar la solicitud
+Haz clic en Send.
+
+4. Interpretación de la respuesta
+Se podría recibir una respuesta como esta
+```
+{
+  "estado": "ENFERMEDAD LEVE"
+}
+```
+
+Esto confirma que el contenedor y el servicio están funcionando correctamente.
