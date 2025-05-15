@@ -38,10 +38,49 @@ entregable_1/
 ├── Dockerfile            # Imagen personalizada de Docker
 ├── requirements.txt      # Dependencias necesarias
 └── README.md             # Este archivo con documentación del proyecto
-
-
 ```
-## A continuación, se explica como probar el servicio con postman
+
+## Despliegue con Docker
+
+### 1. Clonar el repositorio
+
+Primero, clona este repositorio en tu máquina local:
+
+```bash
+git clone https://github.com/crisdago18/Cristian-Gonzalez-mlops-U2
+cd Cristian-Gonzalez-mlops-U2
+```
+
+Reemplaza la URL con la de tu propio repositorio en GitHub si es diferente.
+
+2. Construir la imagen de Docker
+Dentro del directorio del proyecto, ejecuta el siguiente comando para construir la imagen Docker:
+
+```bash
+docker build -t diagnostico-medico .
+```
+
+Este comando crea una imagen llamada diagnostico-medico utilizando el archivo Dockerfile del proyecto. Todas las dependencias necesarias serán instaladas automáticamente a través de requirements.txt.
+
+⏱️ El tiempo de construcción puede variar dependiendo de los recursos del sistema y la velocidad de conexión.
+
+3. Ejecutar el contenedor Docker
+Una vez construida la imagen, ejecuta el siguiente comando para iniciar el servicio:
+
+```bash
+docker run -p 5000:5000 diagnostico-medico
+```
+
+Este comando inicia el contenedor y expone el servicio en el puerto 5000 de tu máquina.
+Una vez en ejecución, el punto de acceso para las predicciones estará disponible en:
+
+```bash
+http://localhost:5000/predecir
+```
+
+## Prueba de servicio
+
+### A continuación, se explica como se explica como ejecutar el servicio utilizando Postman.
 
 1. Crear una nueva solicitud
 
