@@ -7,6 +7,10 @@ def predecir_estado(frecuencia_cardiaca, nivel_glucosa, presion_sistolica):
         return "ENFERMEDAD LEVE"
     elif 300 <= suma < 400:
         return "ENFERMEDAD AGUDA"
-    else:
+    elif 400 <= suma < 500:
         return "ENFERMEDAD CRÓNICA"
+    elif 500 <= suma < 600:
+        return "ENFERMEDAD TERMINAL"
+    else:
+        return "ESTADO DESCONOCIDO"
 
