@@ -20,11 +20,11 @@ Estos valores serán evaluados mediante reglas simples para retornar un diagnós
 - ENFERMEDAD LEVE
 - ENFERMEDAD AGUDA
 - ENFERMEDAD CRÓNICA
+- ENFERMEDAD TERMINAL
 
 ## Componentes del proyecto
 
 - `app.py`: Archivo principal que expone el servicio mediante Flask.
-- `modelo.py`: Contiene la lógica de diagnóstico simulada.
 - `Dockerfile`: Imagen personalizada que permite ejecutar el servicio.
 - `requirements.txt`: Dependencias necesarias (Flask).
 - `README.md`: Este archivo con información explicativa.
@@ -32,9 +32,8 @@ Estos valores serán evaluados mediante reglas simples para retornar un diagnós
 ## Estructura del proyecto
 
 ```
-entregable_1/
+Cristian-Gonzalez-mlops-U2/
 ├── app.py                # Exposición del servicio mediante Flask
-├── modelo.py             # Lógica del diagnóstico simulado
 ├── Dockerfile            # Imagen personalizada de Docker
 ├── requirements.txt      # Dependencias necesarias
 └── README.md             # Este archivo con documentación del proyecto
@@ -62,7 +61,7 @@ docker build -t diagnostico-medico .
 
 Este comando crea una imagen llamada diagnostico-medico utilizando el archivo Dockerfile del proyecto. Todas las dependencias necesarias serán instaladas automáticamente a través de requirements.txt.
 
-⏱️ El tiempo de construcción puede variar dependiendo de los recursos del sistema y la velocidad de conexión.
+ El tiempo de construcción puede variar dependiendo de los recursos del sistema y la velocidad de conexión.
 
 3. Ejecutar el contenedor Docker
 Una vez construida la imagen, ejecuta el siguiente comando para iniciar el servicio:
@@ -78,45 +77,71 @@ Una vez en ejecución, el punto de acceso para las predicciones estará disponib
 http://localhost:5000/predecir
 ```
 
-## Prueba de servicio
+## Prueba del servicio
 
-### A continuación, se explica como se explica como ejecutar el servicio utilizando Postman.
+### 1. Ejecutar la predicción
 
-1. Crear una nueva solicitud
+Usa el siguiente comando en tu terminal para enviar una solicitud `POST` al servicio:
 
-Haz clic en “+ New Tab” o en “New” → “HTTP Request”.
-
-Selecciona el método POST.
-
-En el campo de URL escribe:
-```
-http://localhost:5000/predecir
-```
-2. Configurar el cuerpo de la solicitud
-Ve a la pestaña Body.
-
-Selecciona raw.
-
-En el menú desplegable a la derecha elige JSON.
-
-Escribe el siguiente JSON con los parámetros esperados:
-```
-{
+```bash
+curl -X POST http://localhost:5000/predecir \
+-H "Content-Type: application/json" \
+-d '{
   "frecuencia_cardiaca": 85,
   "nivel_glucosa": 105,
   "presion_sistolica": 115
-}
+}'
 ```
 
-3. Enviar la solicitud
-Haz clic en Send.
+El servicio responderá con un JSON como el siguiente:
 
-4. Interpretación de la respuesta
-Se podría recibir una respuesta como esta
-```
+```json
 {
   "estado": "ENFERMEDAD LEVE"
 }
 ```
 
-Esto confirma que el contenedor y el servicio están funcionando correctamente.
+Esto indica que el contenedor y el servicio están funcionando correctamente.
+
+### 2. Consultar el reporte de predicciones
+
+Para ver un resumen de las predicciones realizadas, ejecuta el siguiente comando GET:
+
+```bash
+curl -X GET http://localhost:5000/report
+```
+
+El servicio responderá con un JSON como el siguiente:
+
+```json
+{
+    "conteo_por_estado": {
+        "ENFERMEDAD AGUDA": 2,
+        "ENFERMEDAD TERMINAL": 2,
+        "ENFERMEDAD GRAVE": 1
+    },
+    "fecha_ultima_prediccion": "2025-05-17T18:18:14.170791",
+    "ultimas_5_predicciones": [
+        {
+            "estado": "ENFERMEDAD AGUDA",
+            "fecha": "2025-05-17T18:04:26.703143"
+        },
+        {
+            "estado": "ENFERMEDAD TERMINAL",
+            "fecha": "2025-05-17T18:05:30.177223"
+        },
+        {
+            "estado": "ENFERMEDAD AGUDA",
+            "fecha": "2025-05-17T18:17:57.455637"
+        },
+        {
+            "estado": "ENFERMEDAD TERMINAL",
+            "fecha": "2025-05-17T18:18:04.591300"
+        },
+        {
+            "estado": "ENFERMEDAD GRAVE",
+            "fecha": "2025-05-17T18:18:14.170791"
+        }
+    ]
+}
+```
