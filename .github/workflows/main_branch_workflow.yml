@@ -40,8 +40,8 @@ jobs:
 
       - name: Construir imagen Docker
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/diagnostico-medico:latest .
+          docker build -t ghcr.io/${{ github.repository_owner }}/diagnostico-medico:latest .
 
       - name: Publicar imagen en GHCR
         run: |
-          docker push ghcr.io/${{ github.repository }}/diagnostico-medico:latest
+          docker push ghcr.io/${{ github.repository_owner }}/diagnostico-medico:latest
