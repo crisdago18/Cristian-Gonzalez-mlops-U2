@@ -33,10 +33,15 @@ Estos valores serán evaluados mediante reglas simples para retornar un diagnós
 
 ```
 Cristian-Gonzalez-mlops-U2/
-├── app.py                # Exposición del servicio mediante Flask
-├── Dockerfile            # Imagen personalizada de Docker
-├── requirements.txt      # Dependencias necesarias
-└── README.md             # Este archivo con documentación del proyecto
+├── app.py                      # Exposición del servicio mediante Flask
+├── Dockerfile                  # Imagen personalizada de Docker
+├── requirements.txt            # Dependencias necesarias
+├── README.md                   # Este archivo con documentación del proyecto
+├── Changelogs.docx             # Este archivo contiene los cambios en la propuesta del pipeline v2 vs v1
+├── diagrama-v1.png             # La imagen del pipeline propuesto en la entrega 1
+├── diagrama-v2.png             # la imagen del pipeline ajustado para la entrega 3
+├── diseño-pipeline-V1.docx     # propuesta del pipeline enviado en la entrega 1
+├── diseño-pipeline-V2.docx     # propuesta del pipeline ajustado para la entrega 3
 ```
 
 ## Despliegue con Docker
